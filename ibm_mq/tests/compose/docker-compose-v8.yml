@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  ibmmq:
+    build:
+      context: ${COMPOSE_DIR}/v8
+    environment:
+      - MQ_QMGR_NAME=datadog
+      - LICENSE=accept
+    ports:
+      - "1414:1414"
