@@ -6,6 +6,12 @@ TMP_DIR=/tmp/mq
 MQ_URL=http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev90_linux_x86-64.tar.gz
 MQ_PACKAGES="MQSeriesRuntime-*.rpm MQSeriesServer-*.rpm MQSeriesMsg*.rpm MQSeriesJava*.rpm MQSeriesJRE*.rpm MQSeriesGSKit*.rpm"
 
+if [ -e /opt/mqm/inc/cmqc.h ]; then
+  echo "cmqc.h already exists, exiting"
+  set +ex
+  exit 0
+fi
+
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends \
   bash \
@@ -35,5 +41,8 @@ pushd $TMP_DIR
     sudo /opt/mqm/bin/setmqinst -p /opt/mqm -i
   popd
 popd
+
+ls /opt/mqm
+ls /opt/mqm/inc/
 
 set +ex

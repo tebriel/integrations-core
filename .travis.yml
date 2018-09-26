@@ -11,6 +11,7 @@ addons:
 cache:
   directories:
     - "$HOME/.cache/pip"
+    - /opt/mqm
 git:
   depth: 3
 branches:
