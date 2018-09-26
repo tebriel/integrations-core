@@ -6,6 +6,11 @@ TMP_DIR=/tmp/mq
 MQ_URL=http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev90_linux_x86-64.tar.gz
 MQ_PACKAGES="MQSeriesRuntime-*.rpm MQSeriesServer-*.rpm MQSeriesMsg*.rpm MQSeriesJava*.rpm MQSeriesJRE*.rpm MQSeriesGSKit*.rpm"
 
+if [ "$CHECK" -ne "ibmmq" -a "$TEST_CHANGED" -ne "true" ]; then
+  
+  exit 0
+fi
+
 if [ -e /opt/mqm/inc/cmqc.h ]; then
   echo "cmqc.h already exists, exiting"
   set +ex
