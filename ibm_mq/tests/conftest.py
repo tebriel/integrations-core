@@ -5,7 +5,6 @@
 import os
 import time
 import pytest
-import re
 
 from datadog_checks.dev import docker_run
 from datadog_checks.ibm_mq import IbmMqCheck
