@@ -45,7 +45,7 @@ def spin_up_ibmmq():
     if mq_version == '9':
         log_pattern = "AMQ5026I: The listener 'DEV.LISTENER.TCP' has started. ProcessId"
     elif mq_version == '8':
-        log_pattern = r"QMNAME'\(datadog'\)\s*STATUS\(Running\)"
+        log_pattern = r".*QMNAME\(datadog\)\s*STATUS\(Running\).*"
 
     with docker_run(
         os.path.join(COMPOSE_DIR, compose_file_name),
