@@ -24,7 +24,7 @@ def instance():
         'channel': 'DEV.ADMIN.SVRCONN',
         'queue_manager': 'datadog',
         'host': 'localhost',
-        'port': '1414',
+        'port': '11414',
         'username': 'admin',
         'password': 'passw0rd',
         'queues': [
@@ -52,5 +52,5 @@ def spin_up_ibmmq():
         env_vars=env,
         log_patterns=log_pattern
     ):
-        time.sleep(10)
+        time.sleep(15)
         yield
