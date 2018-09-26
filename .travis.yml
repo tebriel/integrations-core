@@ -23,6 +23,7 @@ env:
     - PIP_CACHE=$HOME/.cache/pip
     # if the c include path doesn't have the proper path pymqi will not compile
     - C_INCLUDE_PATH=/opt/mqm/inc
+    - LD_LIBRARY_PATH="/opt/mqm/lib64:/opt/mqm/lib:$LD_LIBRARY_PATH"
 
 stages:
   - name: test_changed
@@ -45,7 +46,6 @@ jobs:
   fast_finish: true
   include:
     - stage: test_changed
-      env: C_INCLUDE_PATH=/opt/mqm/inc
       script:
         - ddev dep verify
         - ddev manifest verify --include-extras
