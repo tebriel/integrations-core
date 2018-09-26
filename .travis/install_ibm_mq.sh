@@ -31,7 +31,7 @@ pushd $TMP_DIR
   tar -zxvf ./*.tar.gz
   pushd MQServer
     sudo ./mqlicense.sh -text_only -accept
-    sudo rpm -ivh --force-debian $MQ_PACKAGES
+    sudo rpm -ivh --force-debian *.rpm
     sudo /opt/mqm/bin/setmqinst -p /opt/mqm -i
   popd
 popd
