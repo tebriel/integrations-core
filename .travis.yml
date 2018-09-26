@@ -44,6 +44,7 @@ jobs:
   fast_finish: true
   include:
     - stage: test_changed
+      env: C_INCLUDE_PATH=/opt/mqm/inc
       script:
         - ddev dep verify
         - ddev manifest verify --include-extras
