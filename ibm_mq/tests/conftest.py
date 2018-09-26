@@ -4,6 +4,7 @@
 
 import os
 import time
+import subprocess
 import pytest
 
 from datadog_checks.dev import docker_run
@@ -53,4 +54,7 @@ def spin_up_ibmmq():
         log_patterns=log_pattern
     ):
         time.sleep(15)
+        subprocess.check_call(["docker", "ps", "-aq"])
+        subprocess.check_call(["docker-compose", "-f", os.path.join(COMPOSE_DIR, compose_file_name), "logs"])
+
         yield
