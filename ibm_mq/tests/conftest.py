@@ -34,6 +34,10 @@ def instance():
     }
 
 
+def down():
+    pass
+
+
 @pytest.fixture(scope='session')
 def spin_up_ibmmq():
     mq_version = os.environ.get('IBM_MQ_VERSION', '9')
@@ -51,7 +55,8 @@ def spin_up_ibmmq():
         os.path.join(COMPOSE_DIR, compose_file_name),
         # endpoints='http://localhost:1414',
         env_vars=env,
-        log_patterns=log_pattern
+        log_patterns=log_pattern,
+        down=down
     ):
         time.sleep(15)
         subprocess.check_call(["docker", "ps", "-aq"])
