@@ -57,7 +57,7 @@ def spin_up_ibmmq():
         # endpoints='http://localhost:1414',
         env_vars=env,
         log_patterns=log_pattern,
-        # down=down
+        down=down
     ):
         time.sleep(15)
         subprocess.check_call(["docker", "ps", "-aq"])
