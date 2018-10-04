@@ -7,6 +7,7 @@ import time
 import subprocess
 import pytest
 
+from datadog_checks.dev import get_docker_hostname
 from datadog_checks.dev import docker_run
 from datadog_checks.ibm_mq import IbmMqCheck
 
@@ -24,7 +25,7 @@ def instance():
     return {
         'channel': 'DEV.ADMIN.SVRCONN',
         'queue_manager': 'datadog',
-        'host': 'localhost',
+        'host': get_docker_hostname(),
         'port': '11414',
         'username': 'admin',
         'password': 'passw0rd',
@@ -56,7 +57,7 @@ def spin_up_ibmmq():
         # endpoints='http://localhost:1414',
         env_vars=env,
         log_patterns=log_pattern,
-        down=down
+        # down=down
     ):
         time.sleep(15)
         subprocess.check_call(["docker", "ps", "-aq"])
