@@ -26,7 +26,7 @@ def instance():
         'channel': 'DEV.ADMIN.SVRCONN',
         'queue_manager': 'datadog',
         'host': get_docker_hostname(),
-        'port': '1414',
+        'port': '11414',
         'username': 'admin',
         'password': 'passw0rd',
         'queues': [

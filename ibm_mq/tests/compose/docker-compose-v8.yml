@@ -7,4 +7,4 @@ services:
       - MQ_QMGR_NAME=datadog
       - LICENSE=accept
     ports:
-      - "1414:1414"
+      - "11414:1414"
