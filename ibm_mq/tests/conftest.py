@@ -33,7 +33,7 @@ def instance():
             'DEV.QUEUE.1'
         ]
     }
-    
+
 
 @pytest.fixture(scope='session')
 def spin_up_ibmmq():
