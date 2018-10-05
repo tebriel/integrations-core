@@ -598,10 +598,8 @@ class OpenStackCheck(AgentCheck):
                 self.delete_current_scope()
             elif resp.status_code == 409:
                 raise InstancePowerOffFailure()
-            elif resp.status_code == 404:
-                raise e
             else:
-                raise
+                raise e
 
         return resp.json()
 
@@ -920,8 +918,10 @@ class OpenStackCheck(AgentCheck):
                 self.log.debug("Adding server to cache: %s", new_server)
                 # The project may not exist if the server isn't in an active state
                 # Query for the project name here to avoid 404s
+                # If the project name conversion fails, we won't add this server
                 new_server['project_name'] = self.get_project_name_from_id(new_server['tenant_id'])
-                self.server_details_by_id[new_server['server_id']] = new_server
+                if new_server['project_name']:
+                    self.server_details_by_id[new_server['server_id']] = new_server
             elif new_server['server_id'] in self.server_details_by_id and new_server['state'] in REMOVED_STATES:
                 self.log.debug("Removing server from cache: %s", new_server)
                 try:
@@ -963,14 +963,14 @@ class OpenStackCheck(AgentCheck):
 
         except Exception as e:
             self.warning('Unable to get project name: {}'.format(str(e)))
-            raise e
+            return None
 
     def get_stats_for_single_server(self, server_details, tags=None, use_shortname=False):
         def _is_valid_metric(label):
             return label in NOVA_SERVER_METRICS or any(seg in label for seg in NOVA_SERVER_INTERFACE_SEGMENTS)
 
         hypervisor_hostname = server_details.get('hypervisor_hostname')
-        host_tags = self._get_host_aggregate_tag(use_shortname)
+        host_tags = self._get_host_aggregate_tag(hypervisor_hostname, use_shortname=use_shortname)
         host_tags.append('availability_zone:{}'.format(server_details.get('availability_zone', 'NA')))
 
         server_id = server_details.get('server_id')
@@ -992,10 +992,10 @@ class OpenStackCheck(AgentCheck):
                 del self.server_details_by_id[server_id]
             else:
                 self.log.debug("Received HTTP Error when reaching the nova endpoint")
-                raise e
+                return
         except Exception as e:
             self.warning("Unknown error when monitoring %s : %s" % (server_id, e))
-            raise e
+            return
 
         if server_stats:
             tags = tags or []
