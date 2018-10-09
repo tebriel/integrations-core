@@ -52,7 +52,7 @@ setup(
     ],
 
     # The package we're going to ship
-    packages=['datadog_checks', 'datadog_checks.ibm_mq'],
+    packages=['datadog_checks.ibm_mq'],
 
     # Run-time dependencies
     install_requires=[CHECKS_BASE_REQ],

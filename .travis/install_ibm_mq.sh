@@ -6,7 +6,7 @@ TMP_DIR=/tmp/mq
 MQ_URL=http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev90_linux_x86-64.tar.gz
 MQ_PACKAGES="MQSeriesRuntime-*.rpm MQSeriesServer-*.rpm MQSeriesMsg*.rpm MQSeriesJava*.rpm MQSeriesJRE*.rpm MQSeriesGSKit*.rpm"
 
-if [ "$CHECK" != "ibm_mq" -a "$TEST_CHANGED" != "true" ]; then
+if [ "$CHECK" != "ibm_mq" -a -n `ddev test --list` =~ "ibm_mq" ]; then
   exit 0
 fi
 

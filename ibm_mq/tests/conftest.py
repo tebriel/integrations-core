@@ -7,8 +7,7 @@ import time
 import subprocess
 import pytest
 
-from datadog_checks.dev import get_docker_hostname
-from datadog_checks.dev import docker_run
+from datadog_checks.dev import get_docker_hostname, docker_run
 from datadog_checks.ibm_mq import IbmMqCheck
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -50,12 +49,8 @@ def spin_up_ibmmq():
 
     with docker_run(
         os.path.join(COMPOSE_DIR, compose_file_name),
-        # endpoints='http://localhost:1414',
         env_vars=env,
-        log_patterns=log_pattern
+        log_patterns=log_pattern,
+        sleep=10
     ):
-        time.sleep(15)
-        subprocess.check_call(["docker", "ps", "-aq"])
-        subprocess.check_call(["docker-compose", "-f", os.path.join(COMPOSE_DIR, compose_file_name), "logs"])
-
         yield

@@ -46,7 +46,6 @@ jobs:
   fast_finish: true
   include:
     - stage: test_changed
-      env: TEST_CHANGED=true
       script:
         - ddev dep verify
         - ddev manifest verify --include-extras
