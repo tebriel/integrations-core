@@ -3,8 +3,6 @@
 # Licensed under a 3-clause BSD style license (see LICENSE)
 
 import os
-import time
-import subprocess
 import pytest
 
 from datadog_checks.dev import get_docker_hostname, docker_run
