@@ -37,7 +37,7 @@ def run_mqsc_cmd(cmd,
 
     command = [
         "echo",
-        "'{}'".format(cmd), 
+        "'{}'".format(cmd),
         "|"
     ]
 
@@ -56,9 +56,17 @@ def run_mqsc_cmd(cmd,
 
     command.append(qmanager)
 
+    test_command = command_wrapper + "echo 'hi'"
+
+    result = get_subprocess_output(command_wrapper, log, raise_on_empty_output=False)
+
+    log.warning('test command result: {}'.format(result))
+
+
     command_wrapper.append(' '.join(command))
 
     log.warning("command: {}".format(command_wrapper))
+
 
     return get_subprocess_output(command_wrapper, log, raise_on_empty_output=False)
 
