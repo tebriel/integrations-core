@@ -35,7 +35,11 @@ def run_mqsc_cmd(cmd,
     if docker_exec_command:
         command_wrapper = docker_exec_command + command_wrapper
 
-    command = ["echo", cmd, "|"]
+    command = [
+        "echo",
+        "'{}'".format(cmd), 
+        "|"
+    ]
 
     # command path might be a list if it's not just a path,
     # we should account for that possibility
