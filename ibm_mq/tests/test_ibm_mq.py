@@ -75,6 +75,7 @@ def test_mqsc(aggregator, instance, spin_up_ibmmq, seed_data):
     result, error, retcode = get_channel_stats(instance['channel'],
                                                instance['queue_manager'],
                                                username=instance['username'],
+                                               docker_exec_command=instance['docker_exec_command'],
                                                installation_dir=os.path.join('opt', 'mqm'),
                                                command_path=instance['runmqsc_command'])
 

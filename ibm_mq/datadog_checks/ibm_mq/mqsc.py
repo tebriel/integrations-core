@@ -16,6 +16,7 @@ def run_mqsc_cmd(cmd,
                  qmanager,
                  log=None,
                  username=None,
+                 docker_exec_command=None,
                  command_path=None,
                  installation_dir=None):
 
@@ -29,6 +30,9 @@ def run_mqsc_cmd(cmd,
         "bash",
         "-c",
     ]
+
+    if docker_exec_command:
+        command_wrapper = docker_exec_command + command_wrapper
 
     command = ["echo", cmd, "|"]
 
@@ -76,6 +80,7 @@ def get_channel_stats(channel,
                       qmanager,
                       log=None,
                       username=None,
+                      docker_exec_command=None,
                       command_path=None,
                       installation_dir=None):
 
@@ -87,6 +92,7 @@ def get_channel_stats(channel,
                                           qmanager,
                                           username=username,
                                           command_path=command_path,
+                                          docker_exec_command=docker_exec_command,
                                           installation_dir=installation_dir)
 
     return (result, error, retcode)

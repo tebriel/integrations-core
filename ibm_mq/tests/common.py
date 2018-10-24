@@ -27,13 +27,15 @@ COMPOSE_FILE_NAME = 'docker-compose-v{}.yml'.format(MQ_VERSION)
 COMPOSE_FILE_PATH = os.path.join(COMPOSE_DIR, COMPOSE_FILE_NAME)
 
 RUN_COMMAND = [
+    '/opt/mqm/bin/runmqsc'
+]
+
+DOCKER_EXEC_COMMAND = [
     'docker-compose',
     '-f',
     COMPOSE_FILE_PATH,
     'exec',
     'ibmmq',
-    'bash',
-    '/opt/mqm/bin/runmqsc'
 ]
 
 INSTANCE = {
@@ -44,6 +46,7 @@ INSTANCE = {
     'username': USERNAME,
     'password': PASSWORD,
     'runmqsc_command': RUN_COMMAND,
+    'doker_exec_command': DOCKER_EXEC_COMMAND,
     'queues': [
         QUEUE
     ]
