@@ -28,12 +28,11 @@ def run_mqsc_cmd(cmd,
 
     command_wrapper = [
         "bash",
-        "-v",
         "-c",
     ]
 
     if docker_exec_command:
-        command_wrapper = docker_exec_command + command_wrapper
+        command_wrapper = docker_exec_command + command_wrapper + ['-l']
 
     command = [
         "echo",
@@ -58,7 +57,7 @@ def run_mqsc_cmd(cmd,
 
     test_command = command_wrapper + ["echo 'hi'"]
 
-    result = get_subprocess_output(command_wrapper, log, raise_on_empty_output=False)
+    result = get_subprocess_output(test_command, log, raise_on_empty_output=False)
 
     log.warning('test command result: {}'.format(result))
 
