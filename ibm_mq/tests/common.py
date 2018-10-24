@@ -32,7 +32,6 @@ RUN_COMMAND = [
 
 DOCKER_EXEC_COMMAND = [
     'docker-compose',
-    '-t',
     '-f',
     COMPOSE_FILE_PATH,
     'exec',
