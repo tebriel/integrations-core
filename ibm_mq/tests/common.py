@@ -32,6 +32,7 @@ RUN_COMMAND = [
     COMPOSE_FILE_PATH,
     'exec',
     'ibmmq',
+    'bash',
     '/opt/mqm/bin/runmqsc'
 ]
 
