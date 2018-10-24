@@ -55,8 +55,8 @@ def spin_up_ibmmq():
     elif common.MQ_VERSION == '8':
         log_pattern = r".*QMNAME\(datadog\)\s*STATUS\(Running\).*"
 
-    def down():
-        pass
+    # def down():
+    #     pass
 
     temp = mkdtemp()
 
@@ -70,7 +70,7 @@ def spin_up_ibmmq():
         common.COMPOSE_FILE_PATH,
         env_vars=env,
         log_patterns=log_pattern,
-        down=down,
+        # down=down,
         sleep=10
     ):
         yield
