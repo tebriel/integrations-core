@@ -28,6 +28,7 @@ def run_mqsc_cmd(cmd,
 
     command_wrapper = [
         "bash",
+        "-v",
         "-c",
     ]
 
