@@ -4,8 +4,10 @@
 
 import pytest
 import logging
+import os
 
 from datadog_checks.ibm_mq import IbmMqCheck
+from datadog_checks.ibm_mq.mqsc import get_channel_stats
 
 log = logging.getLogger(__file__)
 
@@ -49,7 +51,7 @@ OPTIONAL_METRICS = [
 
 
 @pytest.mark.integration
-def test_check(aggregator, instance, spin_up_ibmmq):
+def test_check(aggregator, instance, spin_up_ibmmq, seed_data):
     check = IbmMqCheck('ibm_mq', {}, {})
     check.check(instance)
 
@@ -65,3 +67,19 @@ def test_check(aggregator, instance, spin_up_ibmmq):
         aggregator.assert_metric(metric, at_least=0)
 
     aggregator.assert_all_metrics_covered()
+
+
+@pytest.mark.integration
+def test_mqsc(aggregator, instance, spin_up_ibmmq, seed_data):
+
+    result, error, retcode = get_channel_stats(instance['channel'],
+                                               instance['queue_manager'],
+                                               username=instance['username'],
+                                               installation_dir=os.path.join('opt', 'mqm'),
+                                               command_path=instance['runmqsc_command'])
+
+    log.warning("result: {}".format(result))
+    log.warning("error: {}".format(error))
+    log.warning("retcode: {}".format(retcode))
+
+    assert False

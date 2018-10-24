@@ -4,12 +4,15 @@
 
 import os
 import pytest
+import subprocess
+import copy
 
-from datadog_checks.dev import get_docker_hostname, docker_run
+from tempfile import mkdtemp
+
+from datadog_checks.dev import docker_run  # , temp_dir
 from datadog_checks.ibm_mq import IbmMqCheck
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-COMPOSE_DIR = os.path.join(HERE, 'compose')
+import common
 
 
 @pytest.fixture
@@ -19,36 +22,55 @@ def check():
 
 @pytest.fixture
 def instance():
-    return {
-        'channel': 'DEV.ADMIN.SVRCONN',
-        'queue_manager': 'datadog',
-        'host': get_docker_hostname(),
-        'port': '11414',
-        'username': 'admin',
-        'password': 'passw0rd',
-        'queues': [
-            'DEV.QUEUE.1'
-        ]
-    }
+    return common.INSTANCE
+
+
+@pytest.fixture
+def seed_data():
+    publish = os.path.join(common.HERE, 'python', 'publish.py')
+    consume = os.path.join(common.HERE, 'python', 'consume.py')
+
+    env = copy.deepcopy(os.environ)
+
+    os.environ['HOST'] = common.HOST
+    os.environ['PORT'] = common.PORT
+    os.environ['USERNAME'] = common.USERNAME
+    os.environ['PASSWORD'] = common.PASSWORD
+    os.environ['CHANNEL'] = common.CHANNEL
+    os.environ['QUEUE_MANAGER'] = common.QUEUE_MANAGER
+    os.environ['QUEUE'] = common.QUEUE
+
+    subprocess.check_call(['python', publish])
+    subprocess.check_call(['python', consume])
+
+    # reset the environment
+    os.environ = env
 
 
 @pytest.fixture(scope='session')
 def spin_up_ibmmq():
-    mq_version = os.environ.get('IBM_MQ_VERSION', '9')
-    compose_file_name = 'docker-compose-v{}.yml'.format(mq_version)
-    env = {
-        'COMPOSE_DIR': COMPOSE_DIR
-    }
 
-    if mq_version == '9':
+    if common.MQ_VERSION == '9':
         log_pattern = "AMQ5026I: The listener 'DEV.LISTENER.TCP' has started. ProcessId"
-    elif mq_version == '8':
+    elif common.MQ_VERSION == '8':
         log_pattern = r".*QMNAME\(datadog\)\s*STATUS\(Running\).*"
 
+    def down():
+        pass
+
+    temp = mkdtemp()
+
+    # with temp_dir() as temp:
+    env = {
+        'COMPOSE_DIR': common.COMPOSE_DIR,
+        'TEMP_DIR': temp
+    }
+
     with docker_run(
-        os.path.join(COMPOSE_DIR, compose_file_name),
+        common.COMPOSE_FILE_PATH,
         env_vars=env,
         log_patterns=log_pattern,
+        down=down,
         sleep=10
     ):
         yield

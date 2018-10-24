@@ -6,5 +6,7 @@ services:
     environment:
       - MQ_QMGR_NAME=datadog
       - LICENSE=accept
+    volumes:
+      - ${TEMP_DIR}:/mnt/mqm
     ports:
       - "11414:1414"
