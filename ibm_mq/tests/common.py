@@ -46,7 +46,7 @@ INSTANCE = {
     'username': USERNAME,
     'password': PASSWORD,
     'runmqsc_command': RUN_COMMAND,
-    'doker_exec_command': DOCKER_EXEC_COMMAND,
+    'docker_exec_command': DOCKER_EXEC_COMMAND,
     'queues': [
         QUEUE
     ]
