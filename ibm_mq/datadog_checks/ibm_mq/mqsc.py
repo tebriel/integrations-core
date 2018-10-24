@@ -55,7 +55,7 @@ def run_mqsc_cmd(cmd,
 
     command.append(qmanager)
 
-    test_command = command_wrapper + ["echo 'hi'"]
+    test_command = command_wrapper + ["bash"]
 
     result = get_subprocess_output(test_command, log, raise_on_empty_output=False)
 
