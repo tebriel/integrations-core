@@ -47,11 +47,11 @@ def run_mqsc_cmd(cmd,
     else:
         command.append(command_path)
 
-    if username:
-        command += [
-            '-u',
-            username
-        ]
+    # if username:
+    #     command += [
+    #         '-u',
+    #         username
+    #     ]
 
     command.append(qmanager)
 
@@ -96,7 +96,7 @@ def get_channel_stats(channel,
                       command_path=None,
                       installation_dir=None):
 
-    command = 'DESCRIBE CHANNEL {}'.format(channel)
+    command = 'DISPLAY CHANNEL({})'.format(channel)
 
     # this is an ugly result
     # TODO: write some regex
