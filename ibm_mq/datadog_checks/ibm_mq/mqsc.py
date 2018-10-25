@@ -57,28 +57,6 @@ def run_mqsc_cmd(cmd,
 
     command.append(qmanager)
 
-    test_command = command_wrapper + ["bash"]
-
-    log.warning("test command: {}".format(test_command))
-
-    result = fake_subprocess(test_command)
-
-    log.warning("local subproc: {}".format(result))
-
-    with tempfile.TemporaryFile() as stdout_f, tempfile.TemporaryFile() as stderr_f:
-        proc = subprocess.Popen(test_command, stdout=stdout_f, stderr=stderr_f)
-        proc.wait()
-        stderr_f.seek(0)
-        err = stderr_f.read()
-        stdout_f.seek(0)
-        output = stdout_f.read()
-
-    log.warning("directly calling popen: output: {} error: {}".format(output, err))
-
-    result = get_subprocess_output(test_command, log, raise_on_empty_output=False)
-
-    log.warning('test command result: {}'.format(result))
-
     command_wrapper.append(' '.join(command))
 
     log.warning("command: {}".format(command_wrapper))
