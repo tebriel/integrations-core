@@ -21,7 +21,7 @@ range = 10
 if os.environ.get('RANGE'):
     range = int(os.environ.get('RANGE'))
 
-for i in range(range):
+for i in xrange(range):
     try:
         message = 'Hello from Python! Message {}'.format(i)
         print "sending message: {}".format(message)

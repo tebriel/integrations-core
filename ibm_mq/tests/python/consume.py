@@ -23,7 +23,7 @@ range = 10
 if os.environ.get('RANGE'):
     range = int(os.environ.get('RANGE'))
 
-for i in range(range):
+for i in xrange(range):
     try:
         message = queue.get()
         print "got a new message: {}".format(message)
