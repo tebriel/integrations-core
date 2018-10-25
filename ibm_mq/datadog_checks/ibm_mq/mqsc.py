@@ -73,7 +73,6 @@ def run_mqsc_cmd(cmd,
         stdout_f.seek(0)
         output = stdout_f.read()
 
-
     log.warning("directly calling popen: output: {} error: {}".format(output, err))
 
     result = get_subprocess_output(test_command, log, raise_on_empty_output=False)

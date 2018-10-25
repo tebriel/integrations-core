@@ -31,11 +31,9 @@ RUN_COMMAND = [
 ]
 
 DOCKER_EXEC_COMMAND = [
-    'docker-compose',
-    '-f',
-    COMPOSE_FILE_PATH,
+    'docker',
     'exec',
-    'ibmmq',
+    'compose_ibmmq_1',
 ]
 
 INSTANCE = {
