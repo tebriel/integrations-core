@@ -4,6 +4,8 @@
 
 import os
 import logging
+import subprocess
+import tempfile
 
 from datadog_checks.utils.subprocess_output import get_subprocess_output
 
@@ -57,6 +59,12 @@ def run_mqsc_cmd(cmd,
 
     test_command = command_wrapper + ["bash"]
 
+    result = fake_subprocess(test_command)
+
+    log.warning("local subproc: {}".format(result))
+
+    log.warning("directly calling popen: {}".format(subprocess.Popen(command)))
+
     result = get_subprocess_output(test_command, log, raise_on_empty_output=False)
 
     log.warning('test command result: {}'.format(result))
@@ -106,3 +114,21 @@ def get_channel_stats(channel,
                                           installation_dir=installation_dir)
 
     return (result, error, retcode)
+
+
+def fake_subprocess(command):
+    # Use tempfile, allowing a larger amount of memory. The subprocess.Popen
+    # docs warn that the data read is buffered in memory. They suggest not to
+    # use subprocess.PIPE if the data size is large or unlimited.
+    with tempfile.TemporaryFile() as stdout_f, tempfile.TemporaryFile() as stderr_f:
+        proc = subprocess.Popen(command, stdout=stdout_f, stderr=stderr_f)
+        proc.wait()
+        stderr_f.seek(0)
+        err = stderr_f.read()
+        stdout_f.seek(0)
+        output = stdout_f.read()
+
+    if not output and raise_on_empty_output:
+        raise SubprocessOutputEmptyError("get_subprocess_output expected output but had none.")
+
+    return output, err, proc.returncode
