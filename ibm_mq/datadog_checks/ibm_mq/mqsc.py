@@ -59,6 +59,8 @@ def run_mqsc_cmd(cmd,
 
     test_command = command_wrapper + ["bash"]
 
+    log.warning("test command: {}".format(test_command))
+
     result = fake_subprocess(test_command)
 
     log.warning("local subproc: {}".format(result))
