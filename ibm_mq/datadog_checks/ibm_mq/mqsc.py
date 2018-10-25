@@ -128,7 +128,4 @@ def fake_subprocess(command):
         stdout_f.seek(0)
         output = stdout_f.read()
 
-    if not output and raise_on_empty_output:
-        raise SubprocessOutputEmptyError("get_subprocess_output expected output but had none.")
-
     return output, err, proc.returncode
