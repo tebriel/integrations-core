@@ -17,7 +17,11 @@ qmgr = pymqi.connect(queue_manager, channel, conn_info, user, password)
 
 queue = pymqi.Queue(qmgr, queue_name)
 
-for i in range(10):
+range = 10
+if os.environ.get('RANGE'):
+    range = int(os.environ.get('RANGE'))
+
+for i in range(range):
     try:
         message = 'Hello from Python! Message {}'.format(i)
         print "sending message: {}".format(message)
